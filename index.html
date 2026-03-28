@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<title>Viral App</title>
+</head>
+
+<body class="bg-gray-100 p-3">
+
+<h2 id="user" class="text-xl font-bold mb-3">Loading...</h2>
+
+<div id="app"></div>
+
+<script>
+let tg = window.Telegram.WebApp;
+tg.expand();
+
+// 👤 User Name
+let user = tg.initDataUnsafe?.user?.first_name || "User";
+document.getElementById("user").innerText = "🔥 Welcome " + user;
+
+// 🔗 Ads Links
+let ads = [
+"https://jackknifemonuments.com/iqq8d08uku?key=f36db480bbf38177cfe6e09005072a99",
+"https://jackknifemonuments.com/czvhzv16ab?key=db14db6ec2b6a69125f43befee10ac0f",
+"https://omg10.com/4/9339244",
+"https://omg10.com/4/9390883",
+"https://omg10.com/4/9374401"
+];
+
+// 🎬 Videos
+let data = [
+{
+  title:"🔥 Viral Video",
+  img:"https://i.imgur.com/1.jpg",
+  link:"https://viralvideosclipshub.blogspot.com",
+  ads:3
+},
+{
+  title:"🔥 Hot Viral",
+  img:"https://i.imgur.com/2.jpg",
+  link:"https://viralhotvideos69xxx.blogspot.com",
+  ads:3
+},
+{
+  title:"💖 Romantic",
+  img:"https://i.imgur.com/3.jpg",
+  link:"https://romanticchotikotha.blogspot.com/2026/03/blog-post.html",
+  ads:2
+},
+{
+  title:"🎬 Special Video",
+  img:"https://i.imgur.com/4.jpg",
+  link:"https://heylink.me/BDViralVideo",
+  ads:4
+}
+];
+
+// 🔄 Flow control
+let current = 0;
+let step = 0;
+
+function startFlow(i){
+  current = i;
+  step = 1;
+  runStep();
+}
+
+function runStep(){
+
+  if(step <= 2){
+    runAd();
+  }
+  else if(step == 3){
+    showPreview();
+  }
+  else if(step == 4){
+    runAd();
+  }
+  else if(step == 5){
+    openVideo();
+  }
+}
+
+// ⏱️ Ad with Timer
+function runAd(){
+  let time = Math.floor(Math.random()*5)+8;
+
+  let adLink = ads[Math.floor(Math.random()*ads.length)];
+  window.open(adLink);
+
+  let interval = setInterval(()=>{
+    document.getElementById("app").innerHTML =
+    `<div class="text-center text-lg">
+      ⏳ Please wait ${time}s <br>
+      🔓 Unlocking...
+    </div>`;
+
+    time--;
+
+    if(time <= 0){
+      clearInterval(interval);
+      step++;
+      runStep();
+    }
+
+  },1000);
+}
+
+// 🎬 Preview
+function showPreview(){
+  let item = data[current];
+
+  document.getElementById("app").innerHTML = `
+  <div class="bg-white p-3 rounded-xl shadow text-center">
+    <h3 class="text-lg font-bold mb-2">🔥 Preview</h3>
+    <img src="${item.img}" class="rounded mb-2">
+    <button onclick="nextStep()"
+    class="bg-orange-500 text-white px-4 py-2 rounded-full">
+    Continue ▶
+    </button>
+  </div>`;
+}
+
+function nextStep(){
+  step++;
+  runStep();
+}
+
+// 🎥 Final Video
+function openVideo(){
+  window.open(data[current].link);
+  render();
+}
+
+// 🎨 UI Render
+function render(){
+  let html = "";
+
+  data.forEach((item,i)=>{
+
+    html += `
+    <div class="bg-white p-3 rounded-xl shadow mb-3">
+      <img src="${item.img}" class="rounded mb-2">
+      <h4 class="font-semibold">${item.title}</h4>
+
+      <button onclick="startFlow(${i})"
+      class="bg-orange-500 text-white px-4 py-2 mt-2 rounded-full w-full">
+      Watch Now 🔥
+      </button>
+    </div>
+    `;
+  });
+
+  document.getElementById("app").innerHTML = html;
+}
+
+render();
+
+</script>
+
+</body>
+</html>
